@@ -5,6 +5,24 @@ import wallpapersData from './wallpapers.json';
 
 const ITEMS_PER_PAGE = 24;
 
+function ImageWithSkeleton({ src, alt, className }: { src: string, alt: string, className?: string }) {
+    const [isLoaded, setIsLoaded] = useState(false);
+    return (
+        <div className="relative w-full h-full bg-white/5">
+            {!isLoaded && (
+                <div className="absolute inset-0 animate-pulse bg-white/10 rounded-inherit" />
+            )}
+            <img
+                src={src}
+                alt={alt}
+                loading="lazy"
+                onLoad={() => setIsLoaded(true)}
+                className={`transition-opacity duration-700 ${isLoaded ? 'opacity-100' : 'opacity-0'} ${className || ''}`}
+            />
+        </div>
+    );
+}
+
 function App() {
     const [selectedImage, setSelectedImage] = useState<any>(null);
     const [filter, setFilter] = useState('All');
@@ -85,21 +103,22 @@ function App() {
                     <AnimatePresence mode="popLayout">
                         {currentItems.map((wallpaper, index) => (
                             <motion.div
-                                layout
+                                layoutId={`card-${wallpaper.id}`}
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, scale: 0.95 }}
-                                transition={{ duration: 0.4, delay: (index % ITEMS_PER_PAGE) * 0.05 }}
+                                transition={{ duration: 0.4, delay: (index % ITEMS_PER_PAGE) * 0.05, ease: [0.23, 1, 0.32, 1] }}
                                 key={wallpaper.id}
-                                className="relative group block rounded-2xl overflow-hidden bg-white/5 cursor-zoom-in break-inside-avoid"
+                                className="relative group block rounded-2xl overflow-hidden bg-[#111] cursor-zoom-in break-inside-avoid"
                                 onClick={() => setSelectedImage(wallpaper)}
                             >
-                                <img
-                                    src={wallpaper.src}
-                                    alt={wallpaper.name}
-                                    loading="lazy"
-                                    className="w-full h-auto transform transition-transform duration-700 group-hover:scale-105"
-                                />
+                                <div className="w-full h-auto transform transition-transform duration-700 group-hover:scale-105">
+                                    <ImageWithSkeleton
+                                        src={wallpaper.src}
+                                        alt={wallpaper.name}
+                                        className="w-full h-auto block"
+                                    />
+                                </div>
 
                                 {/* Meta Overlay */}
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 md:p-5">
@@ -141,8 +160,8 @@ function App() {
                                     key={i}
                                     onClick={() => handlePageChange(i + 1)}
                                     className={`w-8 h-8 rounded-full text-sm font-medium transition-colors ${currentPage === i + 1
-                                            ? 'bg-white text-black'
-                                            : 'bg-white/5 text-white/70 hover:bg-white/20'
+                                        ? 'bg-white text-black'
+                                        : 'bg-white/5 text-white/70 hover:bg-white/20'
                                         }`}
                                 >
                                     {i + 1}
@@ -189,15 +208,18 @@ function App() {
                         </button>
 
                         <motion.div
-                            layoutId={`img-${selectedImage.id}`}
+                            layoutId={`card-${selectedImage.id}`}
+                            transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
                             className="relative max-w-7xl w-full max-h-full flex flex-col items-center justify-center p-2 md:p-0"
                             onClick={(e) => e.stopPropagation()}
                         >
-                            <img
-                                src={selectedImage.src}
-                                alt={selectedImage.name}
-                                className="max-w-full max-h-[75vh] md:max-h-[85vh] object-contain rounded-lg shadow-2xl"
-                            />
+                            <div className="relative w-full flex justify-center">
+                                <ImageWithSkeleton
+                                    src={selectedImage.src}
+                                    alt={selectedImage.name}
+                                    className="max-w-full max-h-[75vh] md:max-h-[85vh] object-contain rounded-lg shadow-2xl"
+                                />
+                            </div>
 
                             <div className="w-full mt-4 md:mt-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-[#111] p-4 rounded-xl border border-white/10">
                                 <div>
