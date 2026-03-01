@@ -25,7 +25,7 @@ function App() {
                 <div className="max-w-7xl mx-auto flex flex-col gap-4">
                     <div className="flex justify-between items-center">
                         <h1 className="text-2xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-white/50">
-                            Santhoshhh Wallpapers
+                            Atmos
                         </h1>
                         <a href="https://github.com/santhoshhh/wallpapers" className="text-sm font-medium text-white/50 hover:text-white transition-colors flex items-center gap-2" target="_blank" rel="noreferrer">
                             <ExternalLink size={16} /> GitHub
@@ -73,9 +73,22 @@ function App() {
                                 />
 
                                 {/* Meta Overlay */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                                    <span className="text-xs uppercase tracking-wider text-white/70 font-medium mb-1">{wallpaper.category}</span>
-                                    <h3 className="text-sm font-medium text-white truncate">{wallpaper.name}</h3>
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
+                                    <div className="flex justify-between items-end">
+                                        <div>
+                                            <span className="text-[10px] uppercase tracking-widest text-white/50 font-medium mb-1.5 block">{wallpaper.category}</span>
+                                            <h3 className="text-sm font-medium text-white/90 truncate max-w-[200px]">{wallpaper.name}</h3>
+                                        </div>
+                                        <a
+                                            href={wallpaper.src}
+                                            download={wallpaper.id}
+                                            onClick={(e) => e.stopPropagation()}
+                                            className="p-2.5 rounded-full bg-white/10 hover:bg-white text-white hover:text-black backdrop-blur-md transition-all sm:translate-y-2 sm:opacity-0 group-hover:translate-y-0 group-hover:opacity-100 duration-300"
+                                            title="Download"
+                                        >
+                                            <Download size={16} strokeWidth={2.5} />
+                                        </a>
+                                    </div>
                                 </div>
                             </motion.div>
                         ))}
