@@ -27,9 +27,18 @@ function App() {
                         <h1 className="text-2xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-white/50">
                             Atmos
                         </h1>
-                        <a href="https://github.com/santhoshhh/wallpapers" className="text-sm font-medium text-white/50 hover:text-white transition-colors flex items-center gap-2" target="_blank" rel="noreferrer">
-                            <ExternalLink size={16} /> GitHub
-                        </a>
+                        <div className="flex items-center gap-4">
+                            <a
+                                href="https://github.com/santjsx/wallpapers/archive/refs/heads/main.zip"
+                                className="text-sm font-medium text-black bg-white/90 hover:bg-white px-4 py-1.5 rounded-full transition-colors flex items-center gap-1.5"
+                                title="Download the entire repository as a ZIP"
+                            >
+                                <Download size={14} strokeWidth={2.5} /> Download All
+                            </a>
+                            <a href="https://github.com/santjsx/wallpapers" className="text-sm font-medium text-white/50 hover:text-white transition-colors hidden sm:flex items-center gap-1.5" target="_blank" rel="noreferrer">
+                                <ExternalLink size={14} /> GitHub
+                            </a>
+                        </div>
                     </div>
 
                     {/* Filters */}
